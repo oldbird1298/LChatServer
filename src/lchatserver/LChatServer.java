@@ -27,10 +27,12 @@ public class LChatServer {
         // TODO code application logic here
 
         DatagramSocket sock = null;
+        DatagramSocket sock_client = null;
 
         try {
             // Creating a socket to receive msgs, parameter is port
             sock = new DatagramSocket(28988);
+            sock_client = new DatagramSocket(27985);
 
             //buffer to receive incoming messages
             byte[] buffer = new byte[65536];
@@ -45,7 +47,7 @@ public class LChatServer {
                 echo (incoming.getAddress().getHostAddress() + ":" + incoming.getAddress().getHostName() + " : " + incoming.getPort() + "->" + s  );
                 s = "OK : " + s ;
                 DatagramPacket dp = new DatagramPacket(s.getBytes(), s.getBytes().length, incoming.getAddress(), incoming.getPort());
-                sock.send(dp);
+                sock_client.send(dp);
                 
             
             }
