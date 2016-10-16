@@ -32,7 +32,8 @@ public class LChatServer {
         try {
             // Creating a socket to receive msgs, parameter is port
             sock = new DatagramSocket(28988);
-            sock_client = new DatagramSocket(27985);
+            sock_client = new DatagramSocket();
+            int port_send = 27985;
 
             //buffer to receive incoming messages
             byte[] buffer = new byte[65536];
@@ -46,7 +47,7 @@ public class LChatServer {
                 String s = new String(data, 0 , incoming.getLength());
                 echo (incoming.getAddress().getHostAddress() + ":" + incoming.getAddress().getHostName() + " : " + incoming.getPort() + "->" + s  );
                 s = "OK : " + s ;
-                DatagramPacket dp = new DatagramPacket(s.getBytes(), s.getBytes().length, incoming.getAddress(), incoming.getPort());
+                DatagramPacket dp = new DatagramPacket(s.getBytes(), s.getBytes().length, incoming.getAddress(), port_send);
                 sock_client.send(dp);
                 
             
