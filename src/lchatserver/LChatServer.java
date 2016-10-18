@@ -17,6 +17,7 @@ import java.net.DatagramSocket;
  */
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class LChatServer {
 
@@ -28,12 +29,14 @@ public class LChatServer {
 
         DatagramSocket sock = null;
         DatagramSocket sock_client = null;
+        ArrayList<InetAddress> ips = new ArrayList<>();
 
         try {
             // Creating a socket to receive msgs, parameter is port
             sock = new DatagramSocket(28988);
             sock_client = new DatagramSocket();
             int port_send = 27985;
+            
 
             //buffer to receive incoming messages
             byte[] buffer = new byte[65536];
@@ -45,10 +48,21 @@ public class LChatServer {
                 sock.receive(incoming);
                 byte[] data = incoming.getData();
                 String s = new String(data, 0 , incoming.getLength());
+                
+                //adding the client to the chat Room
+                
+                if (s.equals("welcome")) {
+                    ips.add(incoming.getAddress());
+                }
+                
                 echo (incoming.getAddress().getHostAddress() + ":" + incoming.getAddress().getHostName() + " : " + incoming.getPort() + "->" + s  );
                 s = "OK : " + s ;
-                DatagramPacket dp = new DatagramPacket(s.getBytes(), s.getBytes().length, incoming.getAddress(), port_send);
+                for (InetAddress ips1 : ips) {
+                System.out.println(ips);
+                DatagramPacket dp = new DatagramPacket(s.getBytes(), s.getBytes().length, ips1, port_send);
                 sock_client.send(dp);
+                
+                }
                 
             
             }
