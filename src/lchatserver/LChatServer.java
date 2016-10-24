@@ -53,7 +53,7 @@ public class LChatServer {
                 if (s.equals("welcome")) {
                     j = 0;
                     for (InetAddress dupclicate : ips) {
-                        if (incoming.getAddress().toString() == dupclicate.getAddress().toString()) {
+                        if (incoming.getAddress().getHostAddress() == dupclicate.getHostAddress()) {
                             j = 1;
                         }
                     }
