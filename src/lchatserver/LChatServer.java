@@ -18,6 +18,7 @@ import java.net.DatagramSocket;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 public class LChatServer {
 
@@ -53,7 +54,8 @@ public class LChatServer {
                 if (s.equals("welcome")) {
                     j = 0;
                     for (InetAddress dupclicate : ips) {
-                        if (incoming.getAddress().getHostAddress() == dupclicate.getHostAddress()) {
+                        System.out.println(incoming.getAddress().getHostAddress() + "::" + dupclicate.getHostAddress());
+                        if (incoming.getAddress().getHostAddress() == dupclicate.getHostAddress() || incoming.getAddress().getHostAddress().equals(dupclicate.getHostAddress())) {
                             j = 1;
                         }
                     }
@@ -69,7 +71,7 @@ public class LChatServer {
                 echo(incoming.getAddress().getHostAddress() + ":" + incoming.getAddress().getHostName() + " : " + incoming.getPort() + "->" + s);
                 s = "OK : " + s;
                 for (InetAddress ips1 : ips) {
-                    System.out.println(ips);
+                    System.out.println(ips1.getHostName());
                     echo (ips1.getAddress() + ":" + ips1.getHostName() + ":" + port_send + "->" + s);
                     DatagramPacket dp = new DatagramPacket(s.getBytes(), s.getBytes().length, ips1, port_send);
                     sock_client.send(dp);
