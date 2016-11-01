@@ -17,7 +17,9 @@ import java.net.DatagramSocket;
  */
 import java.io.*;
 import java.net.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 public class LChatServer {
@@ -46,6 +48,8 @@ public class LChatServer {
 
             //Communication loop
             while (true) {
+                Date tNow = new Date();
+                SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yy hh:mm:ss");
                 sock.receive(incoming);
                 byte[] data = incoming.getData();
                 String s = new String(data, 0, incoming.getLength());
@@ -62,17 +66,17 @@ public class LChatServer {
                     if (j != 1) {
                         ips.add(incoming.getAddress());
                     }
-                }else if (s.equals("bye")) {
+                } else if (s.equals("bye")) {
                     if (ips.contains(incoming.getAddress())) {
                         ips.remove(ips.indexOf(incoming.getAddress()));
-                    }   
+                    }
                 }
 
-                echo(incoming.getAddress().getHostAddress() + ":" + incoming.getAddress().getHostName() + " : " + incoming.getPort() + "->" + s);
+                echo(ft.format(tNow) + " " + incoming.getAddress().getHostAddress() + ":" + incoming.getAddress().getHostName() + " : " + incoming.getPort() + "->" + s);
                 s = "OK : " + s;
                 for (InetAddress ips1 : ips) {
                     System.out.println(ips1.getHostName());
-                    echo (ips1.getAddress() + ":" + ips1.getHostName() + ":" + port_send + "->" + s);
+                    echo(ft.format(tNow) + " " + ips1 + ":" + ips1.getHostName() + ":" + port_send + "->" + s);
                     DatagramPacket dp = new DatagramPacket(s.getBytes(), s.getBytes().length, ips1, port_send);
                     sock_client.send(dp);
 
