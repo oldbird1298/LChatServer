@@ -12,8 +12,9 @@ import java.net.InetAddress;
  * @author 1AKEDEEPROG2
  */
 public class ConHosts {
-    private String Name;
-    private InetAddress host;
+
+    String Name;
+    InetAddress host;
 
     public String getName() {
         return Name;
@@ -22,7 +23,13 @@ public class ConHosts {
     public InetAddress getHost() {
         return host;
     }
-    
-    
-    
+
+    public void setName(String Name) {
+        this.Name = Name;
+    }
+
+    public void setHost(InetAddress host) {
+        this.host = host;
+    }
+
 }
