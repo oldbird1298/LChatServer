@@ -20,7 +20,6 @@ import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 public class LChatServer {
 
@@ -33,7 +32,9 @@ public class LChatServer {
         DatagramSocket sock = null;
         DatagramSocket sock_client = null;
         ArrayList<InetAddress> ips = new ArrayList<>();
+        ArrayList<ConHosts> connected = new ArrayList<>();
         int j = 0;
+        
 
         try {
             // Creating a socket to receive msgs, parameter is port
@@ -57,9 +58,9 @@ public class LChatServer {
                 //adding the client to the chat Room
                 if (s.equals("welcome")) {
                     j = 0;
-                    for (InetAddress dupclicate : ips) {
-                        System.out.println(incoming.getAddress().getHostAddress() + "::" + dupclicate.getHostAddress());
-                        if (incoming.getAddress().getHostAddress() == dupclicate.getHostAddress() || incoming.getAddress().getHostAddress().equals(dupclicate.getHostAddress())) {
+                    for (ConHosts dupclicate : connected) {
+                        System.out.println(incoming.getAddress().getHostAddress() + "::" + dupclicate.getHost().getHostAddress());
+                        if (incoming.getAddress().getHostAddress() == dupclicate.getHost().getHostAddress() || incoming.getAddress().getHostAddress().equals(dupclicate.getHost().getHostAddress())) {
                             j = 1;
                         }
                     }
