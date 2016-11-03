@@ -75,6 +75,14 @@ public class LChatServer {
                     if (connected.contains(incoming.getAddress())) {
                         connected.remove(connected.indexOf(incoming.getAddress()));
                     }
+                } else if (s.equals("GET")) {
+                    for (ConHosts ips3 : connected) {
+                        String hosts = ips3.Name;
+                        hosts = "USER " + hosts;
+                        DatagramPacket dp = new DatagramPacket(hosts.getBytes(), hosts.getBytes().length, incoming.getAddress(), port_send);
+                        sock_client.send(dp);
+
+                    }
                 }
                 echo(ft.format(tNow));
                 for (int i = 0; i < 10; i++) {
